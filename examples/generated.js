@@ -635,6 +635,15 @@ PS.Prelude_Unsafe = (function () {
     };
 })();
 var PS = PS || {};
+PS.Example = (function () {
+    "use strict";
+    var Prelude = PS.Prelude;
+    var example = "foo";
+    return {
+        example: example
+    };
+})();
+var PS = PS || {};
 PS.Data_Function = (function () {
     "use strict";
     var Prelude = PS.Prelude;

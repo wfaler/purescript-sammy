@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 
     psc: {
       lib: {
-        src: ["<%= libFiles %>"],
+        src: ["examples/Example.purs", "<%= libFiles %>"],
         dest: "examples/generated.js"
       }
     },
