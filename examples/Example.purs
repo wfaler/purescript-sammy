@@ -1,6 +1,15 @@
 module Example
-(example)
+(main)
 where
 
-example :: String
-example = "foo"
+import Davies
+import Debug.Trace
+
+main = do
+  app <- sammy "#main"
+  get app "#/" getR
+  runApp app "#/"
+
+
+getR context = do
+  trace "in get #/"
