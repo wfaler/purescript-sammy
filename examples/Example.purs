@@ -2,14 +2,31 @@ module Example
 (main)
 where
 
-import Davies
+import Sammy
+import qualified Control.Monad.JQuery as J
 import Debug.Trace
 
 main = do
-  app <- sammy "#main"
-  get app "#/" getR
-  runApp app "#/"
-
+  mainApp <- sammy "#main"
+  get mainApp "#/" getR
+  post mainApp "#/event" postEventR
+  bindEvent mainApp "myEvent" myEventHandler
+  bindEvent mainApp "myEvent1" myEventHandler1
+  runApp mainApp "#/"
 
 getR context = do
-  trace "in get #/"
+  foo <- params context "foo"
+  b <- J.select "#main"
+  div <- J.create "<div id='my foo'>"
+  trigger context "myEvent1"
+  J.appendText (show foo) div
+  J.append div b
+
+postEventR context = do
+  trigger context "myEvent"
+
+myEventHandler ctx = do
+  trace "myEvent triggered"
+
+myEventHandler1 ctx = do
+  trace "myEvent1 triggered by get"

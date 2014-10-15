@@ -1,14 +1,13 @@
 // initialize the application
 /*var app = Sammy('#main', function(t){
     t.get('#/', function(a){
-        console.log(t === a);
-        console.log(a === app);
-        console.log(t === app);
-        console.log(t);
-    });
-});*/
-var app = PS.Example.main();
-// start the application
+        console.log(a.params['foo']);
 
-//app.run('#/');
+        console.log('after foo');
+    });
+});
+*/
+
+PS.Example.main();
+
 

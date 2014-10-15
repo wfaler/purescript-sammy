@@ -22,6 +22,8 @@
     "purescript-jquery": "*",
     "sammy":  "0.7.4",
     "purescript-maybe":  "*",
+    "purescript-lists": "*",
+    "purescript-arrays":"*",  
     "purescript-tuples": "*",
     "purescript-foldable-traversable": "*"
   }
