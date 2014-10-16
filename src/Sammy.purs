@@ -1,5 +1,5 @@
 module Sammy
-(redirect, bindEvent,trigger,params,sammy,runApp,get,put,post,del, SammyCtx(..), Sammy(..))
+(redirect, bindEvent,trigger,params,sammy,runApp,get,put,post,del, SammyCtx(..), Sammy(..),SammyApp(..))
 where
 
 import Control.Monad.Eff
@@ -15,7 +15,7 @@ foreign import sammy
          return app;
        });
      };
-   }""":: forall a eff. String -> Eff (app :: a | eff) SammyCtx
+   }""":: forall a eff. String -> Eff (app :: Sammy | eff) SammyApp
 
 foreign import runApp
 """function runApp(app){
@@ -24,7 +24,7 @@ foreign import runApp
          app.run(route);
        };
      };
-   }""" :: forall eff. SammyCtx -> String -> Eff (app :: Sammy | eff) Unit 
+   }""" :: forall eff. SammyApp -> String -> Eff (app :: Sammy | eff) Unit 
 
 foreign import get
 """function get(smy){
@@ -37,7 +37,7 @@ foreign import get
         };
       };
     };
-  }""":: forall b c eff. SammyCtx -> String -> (SammyCtx -> Eff (app :: b | eff) c) -> Eff (app :: b | eff) c
+  }""":: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
 
 foreign import post
 """function post(smy){
@@ -50,7 +50,7 @@ foreign import post
         };
       };
     };
-  }""" :: forall b c eff. SammyCtx -> String -> (SammyCtx -> Eff (app :: b | eff) c) -> Eff (app :: b | eff) c
+  }""" :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
 
 foreign import put
 """function put(smy){
@@ -63,7 +63,7 @@ foreign import put
         };
       };
     };
-  }""" :: forall b c eff. SammyCtx -> String -> (SammyCtx -> Eff (app :: b | eff) c) -> Eff (app :: b | eff) c
+  }""" :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
 
 foreign import del
 """function del(smy){
@@ -76,7 +76,7 @@ foreign import del
         };
       };
     };
-  }""" :: forall b c eff. SammyCtx -> String -> (SammyCtx -> Eff (app :: b | eff) c) -> Eff (app :: b | eff) c
+  }""" :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
 
 foreign import params
 """function params(smy){
@@ -92,7 +92,7 @@ foreign import params
          }
        };
      };
-   }""" :: forall b eff. SammyCtx -> String -> Eff (app :: b | eff) [String]
+   }""" :: forall eff. SammyCtx -> String -> Eff (app :: Sammy | eff) [String]
 
 foreign import trigger
 """function trigger(smy){
@@ -101,7 +101,7 @@ foreign import trigger
          smy.trigger(evt);
        };
      };
-   }""" :: forall b eff. SammyCtx -> String -> Eff (app :: b | eff) Unit
+   }""" :: forall eff. SammyApp -> String -> Eff (app :: Sammy | eff) Unit
 
 foreign import bindEvent
 """function bindEvent(smy){
@@ -114,7 +114,7 @@ foreign import bindEvent
          };
        };
      };
-   }""" :: forall b eff. SammyCtx -> String -> (SammyCtx -> (Eff (app :: b | eff) Unit)) ->  Eff (app :: b | eff) Unit
+   }""" :: forall eff. SammyApp -> String -> (SammyCtx -> (Eff (app :: Sammy | eff) Unit)) ->  Eff (app :: Sammy | eff) Unit
 
 foreign import redirect
 """function redirect(smy){
@@ -123,5 +123,4 @@ foreign import redirect
          smy.redirect(route);
        };
      };
-   }""" :: forall b eff. SammyCtx -> String -> Eff (app :: b | eff) Unit
-
+   }""" :: forall eff. SammyCtx -> String -> Eff (app :: Sammy | eff) Unit

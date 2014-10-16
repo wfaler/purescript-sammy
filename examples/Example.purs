@@ -8,30 +8,31 @@ import Debug.Trace
 
 main = do
   mainApp <- sammy "#main"
-  get mainApp "#/" getR
-  post mainApp "#/event" postEventR
+  get mainApp "#/" (getR mainApp)
+  post mainApp "#/event" (postEventR mainApp)
   get mainApp "#/event" getEventR
-  bindEvent mainApp "myEvent" myEventHandler
-  bindEvent mainApp "myEvent1" myEventHandler1
+  bindEvent mainApp "myEvent" (myEventHandler mainApp)
+  bindEvent mainApp "myEvent1" (myEventHandler1 mainApp)
   runApp mainApp "#/"
 
-getR context = do
+getR app context = do
   foo <- params context "foo"
   b <- J.select "#main"
   div <- J.create "<div id='my foo'>"
-  trigger context "myEvent1"
+  trigger app "myEvent1"
   J.appendText (show foo) div
   J.append div b
 
-postEventR context = do
-  trigger context "myEvent"
+postEventR app context = do
+  trigger app "myEvent"
   redirect context "#/event"
 
 getEventR context = do
-  trace "at #/event"
+  foo <- params context "foo"
+  trace ("at #/event" ++ (show foo))
 
-myEventHandler ctx = do
+myEventHandler app ctx = do
   trace "myEvent triggered"
 
-myEventHandler1 ctx = do
+myEventHandler1 app ctx = do
   trace "myEvent1 triggered by get"
