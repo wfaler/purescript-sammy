@@ -10,6 +10,7 @@ main = do
   mainApp <- sammy "#main"
   get mainApp "#/" getR
   post mainApp "#/event" postEventR
+  get mainApp "#/event" getEventR
   bindEvent mainApp "myEvent" myEventHandler
   bindEvent mainApp "myEvent1" myEventHandler1
   runApp mainApp "#/"
@@ -24,6 +25,10 @@ getR context = do
 
 postEventR context = do
   trigger context "myEvent"
+  redirect context "#/event"
+
+getEventR context = do
+  trace "at #/event"
 
 myEventHandler ctx = do
   trace "myEvent triggered"

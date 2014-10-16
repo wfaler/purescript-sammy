@@ -1,5 +1,5 @@
 {
-  "name": "Sammy.ps",
+  "name": "purescript-sammy",
   "private": true,
   "scripts": {
     "test": "grunt test"
