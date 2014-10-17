@@ -11,8 +11,8 @@ main = do
   get mainApp "#/" (getR mainApp)
   post mainApp "#/event" (postEventR mainApp)
   get mainApp "#/event" getEventR
-  bindEvent mainApp "myEvent" (myEventHandler mainApp)
-  bindEvent mainApp "myEvent1" (myEventHandler1 mainApp)
+  bindEvent mainApp "myEvent" myEventHandler
+  bindEvent mainApp "myEvent1" myEventHandler1
   runApp mainApp "#/"
 
 getR app context = do
@@ -31,8 +31,8 @@ getEventR context = do
   foo <- params context "foo"
   trace ("at #/event" ++ (show foo))
 
-myEventHandler app ctx = do
+myEventHandler ctx = do
   trace "myEvent triggered"
 
-myEventHandler1 app ctx = do
+myEventHandler1 ctx = do
   trace "myEvent1 triggered by get"

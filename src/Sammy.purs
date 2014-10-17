@@ -1,5 +1,5 @@
 module Sammy
-(redirect, bindEvent,trigger,params,sammy,runApp,get,put,post,del, SammyCtx(..), Sammy(..),SammyApp(..))
+(route, redirect, bindEvent,trigger,params,sammy,runApp,get,put,post,del, SammyCtx(..), Sammy(..),SammyApp(..))
 where
 
 import Control.Monad.Eff
@@ -26,57 +26,32 @@ foreign import runApp
      };
    }""" :: forall eff. SammyApp -> String -> Eff (app :: Sammy | eff) Unit 
 
-foreign import get
-"""function get(smy){
-    return function(path){
-      return function(fn){
-        return function(){
-          smy.get(path,function(s){
-            fn(s)();
-          });
+foreign import route
+"""function route(smy){
+    return function(verb){
+      return function(path){
+        return function(fn){
+          return function(){
+            smy.route(verb,path,function(s){
+              fn(s)();
+            });
+          };  
         };
       };
     };
-  }""":: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+  }""":: forall a eff. SammyApp -> String -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
 
-foreign import post
-"""function post(smy){
-    return function(path){
-      return function(fn){
-        return function(){
-          smy.post(path,function(s){
-            fn(s)();
-          });
-        };
-      };
-    };
-  }""" :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+get :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+get app path fn = route app "get" path fn
 
-foreign import put
-"""function put(smy){
-    return function(path){
-      return function(fn){
-        return function(){
-          smy.put(path,function(s){
-            fn(s)();
-          });
-        };
-      };
-    };
-  }""" :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+post :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+post app path fn = route app "post" path fn
 
-foreign import del
-"""function del(smy){
-    return function(path){
-      return function(fn){
-        return function(){
-          smy.route('delete',path,function(s){
-            fn(s)();
-          });
-        };
-      };
-    };
-  }""" :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+put :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+put app path fn = route app "put" path fn
+
+del :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+del app path fn = route app "del" path fn
 
 foreign import params
 """function params(smy){
