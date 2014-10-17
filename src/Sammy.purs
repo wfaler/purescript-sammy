@@ -1,5 +1,5 @@
 module Sammy
-(route, redirect, bindEvent,trigger,params,sammy,runApp,get,put,post,del, SammyCtx(..), Sammy(..),SammyApp(..))
+(route, redirect, bindEvent,trigger,params,sammy,runApp,get,put,post,del, SammyCtx(..), Sammy(..),SammyApp(..),Path(..))
 where
 
 import Control.Monad.Eff
@@ -7,6 +7,8 @@ import Control.Monad.Eff
 foreign import data SammyCtx :: *
 foreign import data SammyApp :: *
 foreign import data Sammy :: !
+
+type Path = String
 
 foreign import sammy
 """function sammy(selector){
@@ -39,18 +41,18 @@ foreign import route
         };
       };
     };
-  }""":: forall a eff. SammyApp -> String -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+  }""":: forall a eff. SammyApp -> String -> Path -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
 
-get :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+get :: forall a eff. SammyApp -> Path -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
 get app path fn = route app "get" path fn
 
-post :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+post :: forall a eff. SammyApp -> Path -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
 post app path fn = route app "post" path fn
 
-put :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+put :: forall a eff. SammyApp -> Path -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
 put app path fn = route app "put" path fn
 
-del :: forall a eff. SammyApp -> String -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
+del :: forall a eff. SammyApp -> Path -> (SammyCtx -> Eff (app :: Sammy | eff) a) -> Eff (app :: Sammy | eff) a
 del app path fn = route app "del" path fn
 
 foreign import params
